@@ -110,6 +110,8 @@ public class UserService {
         userModel.setId(0L);
         userModel.setCoins(100);
         userModel.setCreatedAt(new Date());
+        userModel.setUserSkills(new ArrayList<>());
+        userModel.setNotifications(new ArrayList<>());
 
         userModel = userRepository.save(userModel);
 

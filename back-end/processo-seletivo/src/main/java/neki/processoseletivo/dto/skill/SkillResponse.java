@@ -7,6 +7,7 @@ public class SkillResponse {
     private String description;
     private String imageURL;
     private int level;
+    private boolean isMarket;
     private Long idUser;
 
     public Long getId() {
@@ -47,6 +48,14 @@ public class SkillResponse {
 
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    public boolean isMarket() {
+        return isMarket;
+    }
+
+    public void setMarket(boolean isMarket) {
+        this.isMarket = isMarket;
     }
 
     public Long getIdUser() {

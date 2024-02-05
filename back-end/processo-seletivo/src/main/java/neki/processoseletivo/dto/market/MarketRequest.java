@@ -6,6 +6,7 @@ import neki.processoseletivo.model.Skill;
 
 public class MarketRequest {
 
+    
     private Skill skill;
     private int price;
     private Date created_at;

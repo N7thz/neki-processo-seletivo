@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -47,7 +49,9 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private Date createdAt;
 
-    @JsonBackReference
+    @OneToMany(mappedBy = "user")
+    private List<Notification> notifications;
+
     @OneToMany(mappedBy = "user")
     private List<Skill> userSkills;
 
@@ -55,7 +59,7 @@ public class User implements UserDetails {
     }
 
     public User(Long id, String userName, String email, String password, EnumTipoUsuario perfil, int coins,
-            Date createdAt, List<Skill> userSkills) {
+            Date createdAt, List<Notification> notifications, List<Skill> userSkills) {
         this.id = id;
         this.userName = userName;
         this.email = email;
@@ -63,6 +67,7 @@ public class User implements UserDetails {
         this.perfil = perfil;
         this.coins = coins;
         this.createdAt = createdAt;
+        this.notifications = notifications;
         this.userSkills = userSkills;
     }
 
@@ -120,6 +125,14 @@ public class User implements UserDetails {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
     }
 
     public List<Skill> getUserSkills() {

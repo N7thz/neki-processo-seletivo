@@ -51,6 +51,7 @@ public class SkillService {
 
         optUser.get().setId(id);
 
+        skillModel.setMarket(false);
         skillModel.setId(0l);
         skillModel.setUser(optUser.get());
 
