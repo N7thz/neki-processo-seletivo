@@ -50,17 +50,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    // Método que tem a configuração global de acessos e permissões por rotas
     @Override
-    protected void configure(HttpSecurity http) throws Exception { // é aqui que a MAGIA acontece
-        // Parte padrão das configurações, por enquanto ignorar os avisos
+    protected void configure(HttpSecurity http) throws Exception {
         http
                 .cors()
                 .and()
                 .csrf()
                 .disable()
-                // .exceptionHandling().authenticationEntryPoint((req, res, e) ->
-                // rsp.sendError(401));
                 .exceptionHandling().authenticationEntryPoint(new RestAuthenticationEntryPoint())
                 .and()
                 .sessionManagement()
@@ -68,16 +64,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
 
-                // Daqui pra baixo é onde vamos futucar e fazer nossas validações dinâmicas
-                // Aqui vamos informar as rotas que vão ou não precisar de autenticação e ou
-                // autorização
-                .antMatchers(HttpMethod.POST, "/api/public/login", "/api/users")
-                .permitAll() // estou informando que todos podem acessar esses endpoints (ROTAS) sem
-                             // autenticação
-                // .antMatchers("/api/logs").hasAuthority("admin")
-                // .antMatchers("/api/logs").hasRole("admin")
-                .anyRequest() // os demais endpoints devem estar autenticados
-                .authenticated(); // Digo que qualquer outro endpoint não mapeado acima deve cobrar autenticação
+                .antMatchers(HttpMethod.POST, "/api/users", "/api/users/login")
+                .permitAll()
+
+                .antMatchers("/v3/api-docs/**", "/swagger-ui/**",
+                        "/swagger-ui.html#/")
+                .permitAll()
+                .anyRequest()
+                .authenticated();
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }

@@ -19,9 +19,8 @@ import org.springframework.stereotype.Service;
 import neki.processoseletivo.dto.user.UserRequest;
 import neki.processoseletivo.dto.user.UserResponse;
 import neki.processoseletivo.dto.user.UserResponseLogin;
-import neki.processoseletivo.model.EnumTipoUsuario;
 import neki.processoseletivo.model.User;
-import neki.processoseletivo.model.UserSkill;
+import neki.processoseletivo.model.exceptions.ResourceBadRequest;
 import neki.processoseletivo.model.exceptions.ResourceNotFound;
 import neki.processoseletivo.repository.UserRepository;
 import neki.processoseletivo.security.JWTService;
@@ -98,15 +97,19 @@ public class UserService {
 
         User userModel = mapper.map(userRequest, User.class);
 
+        String email = userModel.getEmail();
+
+        if (userRepository.findByEmail(email).isPresent()) {
+
+            throw new ResourceBadRequest("Esse e-mail já foi cadastrado");
+        }
+
         String passowrd = passwordEncoder.encode(userModel.getPassword());
 
         userModel.setPassword(passowrd);
         userModel.setId(0L);
+        userModel.setCoins(100);
         userModel.setCreatedAt(new Date());
-
-        List<UserSkill> newArray = new ArrayList<>();
-
-        userModel.setUserSkills(newArray);
 
         userModel = userRepository.save(userModel);
 

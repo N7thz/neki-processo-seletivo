@@ -1,13 +1,12 @@
 package neki.processoseletivo.model;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -31,22 +30,27 @@ public class Skill {
     private String imageURL;
 
     @Column(nullable = false)
-    private String level;
+    private int level;
+
+    @Column(nullable = false)
+    private boolean isMarket;
 
     @JsonBackReference
-    @OneToMany(mappedBy = "skill")
-    private List<UserSkill> UserSkills;
+    @ManyToOne
+    @JoinColumn(name = "id_user", nullable = false)
+    private User user;
 
     public Skill() {
     }
 
-    public Skill(Long id, String name, String description, String imageURL, String level, List<UserSkill> userSkills) {
+    public Skill(Long id, String name, String description, String imageURL, int level, boolean isMarket, User user) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.imageURL = imageURL;
         this.level = level;
-        UserSkills = userSkills;
+        this.isMarket = isMarket;
+        this.user = user;
     }
 
     public Long getId() {
@@ -81,19 +85,27 @@ public class Skill {
         this.imageURL = imageURL;
     }
 
-    public String getLevel() {
+    public int getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
+    public void setLevel(int level) {
         this.level = level;
     }
 
-    public List<UserSkill> getUserSkills() {
-        return UserSkills;
+    public boolean isMarket() {
+        return isMarket;
     }
 
-    public void setUserSkills(List<UserSkill> userSkills) {
-        UserSkills = userSkills;
+    public void setMarket(boolean isMarket) {
+        this.isMarket = isMarket;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

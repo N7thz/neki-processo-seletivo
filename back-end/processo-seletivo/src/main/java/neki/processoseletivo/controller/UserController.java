@@ -3,7 +3,9 @@ package neki.processoseletivo.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import neki.processoseletivo.dto.user.UserRequest;
+import neki.processoseletivo.dto.user.UserRequestLogin;
 import neki.processoseletivo.dto.user.UserResponse;
+import neki.processoseletivo.dto.user.UserResponseLogin;
 import neki.processoseletivo.service.UserService;
 
 import java.util.List;
@@ -21,24 +23,37 @@ import org.springframework.web.bind.annotation.PostMapping;
 @CrossOrigin("*")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+        @Autowired
+        private UserService userService;
 
-    @GetMapping
-    public ResponseEntity<List<UserResponse>> getAll() {
+        @PostMapping("/login")
+        public ResponseEntity<UserResponseLogin> login(
+                        @RequestBody UserRequestLogin userRequest) {
 
-        return ResponseEntity
-                .status(200)
-                .body(userService.getAll());
-    }
+                UserResponseLogin userLogado = userService.logar(
+                                userRequest.getEmail(),
+                                userRequest.getPassword());
 
-    @PostMapping
-    public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest) {
+                return ResponseEntity
+                                .status(200)
+                                .body(userLogado);
+        }
 
-        UserResponse userResponse = userService.createUser(userRequest);
+        @GetMapping
+        public ResponseEntity<List<UserResponse>> getAll() {
 
-        return ResponseEntity
-                .status(201)
-                .body(userResponse);
-    }
+                return ResponseEntity
+                                .status(200)
+                                .body(userService.getAll());
+        }        
+
+        @PostMapping
+        public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest) {
+
+                UserResponse userResponse = userService.createUser(userRequest);
+
+                return ResponseEntity
+                                .status(201)
+                                .body(userResponse);
+        }
 }

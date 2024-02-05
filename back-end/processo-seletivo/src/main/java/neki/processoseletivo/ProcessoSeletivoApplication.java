@@ -9,5 +9,4 @@ public class ProcessoSeletivoApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ProcessoSeletivoApplication.class, args);
 	}
-
 }

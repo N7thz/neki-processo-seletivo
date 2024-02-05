@@ -30,6 +30,9 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(nullable = false)
+    private String userName;
+
+    @Column(nullable = false)
     private String email;
 
     @Column(nullable = false)
@@ -39,21 +42,26 @@ public class User implements UserDetails {
     private EnumTipoUsuario perfil;
 
     @Column(nullable = false)
+    private int coins;
+
+    @Column(nullable = false)
     private Date createdAt;
 
     @JsonBackReference
     @OneToMany(mappedBy = "user")
-    private List<UserSkill> userSkills;
+    private List<Skill> userSkills;
 
     public User() {
     }
 
-    public User(Long id, String email, String password, EnumTipoUsuario perfil, Date createdAt,
-            List<UserSkill> userSkills) {
+    public User(Long id, String userName, String email, String password, EnumTipoUsuario perfil, int coins,
+            Date createdAt, List<Skill> userSkills) {
         this.id = id;
+        this.userName = userName;
         this.email = email;
         this.password = password;
         this.perfil = perfil;
+        this.coins = coins;
         this.createdAt = createdAt;
         this.userSkills = userSkills;
     }
@@ -64,6 +72,14 @@ public class User implements UserDetails {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getEmail() {
@@ -90,6 +106,14 @@ public class User implements UserDetails {
         this.perfil = perfil;
     }
 
+    public int getCoins() {
+        return coins;
+    }
+
+    public void setCoins(int coins) {
+        this.coins = coins;
+    }
+
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -98,11 +122,11 @@ public class User implements UserDetails {
         this.createdAt = createdAt;
     }
 
-    public List<UserSkill> getUserSkills() {
+    public List<Skill> getUserSkills() {
         return userSkills;
     }
 
-    public void setUserSkills(List<UserSkill> userSkills) {
+    public void setUserSkills(List<Skill> userSkills) {
         this.userSkills = userSkills;
     }
 
