@@ -126,6 +126,7 @@ public class MarketService {
 
         userBuyer = userRepository.save(userBuyer);
         userSeller = userRepository.save(userSeller);
+        marketRepository.deleteById(marketModel.getId());
 
         marketResponse = mapper.map(marketModel, MarketResponse.class);
 

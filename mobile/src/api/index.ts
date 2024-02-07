@@ -3,7 +3,6 @@ import { FormDataProps } from "../app"
 import { UserRequest, SkillRequest, Market, UserResponse } from "../@types"
 import { useState, useEffect } from "react"
 import { getData, getDataJson } from "../util"
-import { useUser } from "../context/UserContext"
 
 export const useService = () => {
 
@@ -103,11 +102,23 @@ export const useService = () => {
         return api.get(url)
     }
 
-    async function getUserLogado(): Promise<AxiosResponse> {
+    function getUserLogado(): Promise<AxiosResponse> {
 
         const url = `/users/${user?.id}`
 
-        return  api.get(url)
+        return api.get(url)
+    }
+
+    function buySkill(marketId: number): Promise<AxiosResponse> {
+
+        const url = `/market/${user?.id}`
+
+        const request = {
+
+            id: marketId
+        }
+
+        return api.post(url, request)
     }
 
     return {
@@ -120,7 +131,9 @@ export const useService = () => {
         updateSkill,
         addToMarket,
         getMarketItens,
-        getUserLogado
+        getUserLogado,
+        buySkill,
+        api
     }
 }
 

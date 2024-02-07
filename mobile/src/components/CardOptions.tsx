@@ -1,5 +1,5 @@
-import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
-import { View, Text, StyleSheet, ViewProps, TextInput, TouchableOpacity } from "react-native"
+import { FC, useEffect, useState } from "react";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native"
 import { SkillResponse, UserResponse } from "../@types";
 import { Entypo } from '@expo/vector-icons';
 import { useRouter } from "expo-router"

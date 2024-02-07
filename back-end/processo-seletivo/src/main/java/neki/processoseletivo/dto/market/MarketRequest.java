@@ -2,20 +2,20 @@ package neki.processoseletivo.dto.market;
 
 import java.util.Date;
 
-import neki.processoseletivo.model.Skill;
+import neki.processoseletivo.dto.skill.SkillResponse;
+
 
 public class MarketRequest {
-
     
-    private Skill skill;
+    private SkillResponse skill;
     private int price;
     private Date created_at;
 
-    public Skill getSkill() {
+    public SkillResponse getSkill() {
         return skill;
     }
 
-    public void setSkill(Skill skill) {
+    public void setSkill(SkillResponse skill) {
         this.skill = skill;
     }
 

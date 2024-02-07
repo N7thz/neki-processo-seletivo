@@ -12,6 +12,30 @@ export const Card: FC<CardProps> = ({ skill, onPress }) => {
 
     const [isOpenCard, setIsOpenCard] = useState<boolean>(false)
 
+    const colorCard = () => {
+
+        let colorCard = ""
+
+        if (skill.level < 100) {
+
+            colorCard = "#0ea5e9"
+        } else if (skill.level > 300) {
+
+            colorCard = "#16a34a"
+        } else if (skill.level > 700) {
+
+            colorCard = "#b91c1c"
+        } else if (skill.level > 900) {
+
+            colorCard = "#4338ca"
+        } else {
+
+            colorCard = "#fbbf24"
+        }
+
+        return colorCard
+    }
+
     return (
 
         <>
@@ -21,7 +45,10 @@ export const Card: FC<CardProps> = ({ skill, onPress }) => {
             >
                 <View
                     {...onPress}
-                    style={[styles.box, { position: "relative" }]}
+                    style={[styles.box, { 
+                        position: "relative", 
+                        backgroundColor: colorCard()
+                    }]}
                 >
                     <Image
                         source={{
@@ -73,7 +100,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         width: 200,
         minHeight: 300,
-        backgroundColor: "blue",
         padding: 8,
         margin: 4,
         borderRadius: 4,

@@ -61,6 +61,7 @@ export interface MarketResponse {
         description: string
         imageURL: string
         level: number
+        idUser: number
         market: boolean
     },
     price: number

@@ -5,7 +5,7 @@ import { SkillResponse, UserResponse } from "../../@types";
 import { Form } from "../../components/Form";
 import { useService } from "../../api";
 
-import { FontAwesome6, AntDesign } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import { Card } from "../../components/Card";
 
 export default function Home() {
@@ -14,6 +14,7 @@ export default function Home() {
 
     const [user, setUser] = useState<UserResponse>()
     const [skills, setSkills] = useState<SkillResponse[]>()
+    const [skillsFiltered, setSkillsFiltered] = useState<SkillResponse[]>()
     const [isOpen, setIsOpen] = useState<boolean>(false)
 
     useEffect(() => {
@@ -22,19 +23,23 @@ export default function Home() {
         if (user) {
 
             getSkillByIdUser(user.id)
-                .then(res => { setSkills(res.data)})
+                .then(res => { setSkills(res.data) })
                 .catch(err => console.log(err))
+
+            setSkillsFiltered(skills?.filter(skill => skill.market == false))
         }
     }, [])
 
     useEffect(() => {
 
+        getMySkills()
         if (user) {
 
             getSkillByIdUser(user.id)
                 .then(res => setSkills(res.data))
                 .catch(err => console.log(err))
         }
+        setSkillsFiltered(skills?.filter(skill => skill.market == false))
     }, [isOpen])
 
 
@@ -53,43 +58,9 @@ export default function Home() {
         <>
             <View style={styles.container}>
 
-                <View style={styles.header}>
-
-                    <Text style={styles.headerText}>
-                        {user?.userName}
-                    </Text>
-
-                    <View style={styles.iconBox}>
-                        <Text
-                            style={{ fontSize: 24 }}
-                        >
-                            {user?.coins}
-                        </Text>
-                        <FontAwesome6
-                            name="coins"
-                            size={24}
-                            color="yellow"
-                        />
-                    </View>
-                </View>
-
                 <View
                     style={styles.viewPrincipal}
                 >
-
-                    <View
-                        style={styles.inputBox}
-                    >
-                        <TextInput
-                            style={styles.input}
-                        />
-                        <AntDesign
-                            style={styles.icon}
-                            name="search1"
-                            size={24}
-                            color="black"
-                        />
-                    </View>
 
                     <ScrollView
                         style={{ width: "100%" }}
@@ -98,7 +69,7 @@ export default function Home() {
                             style={styles.centerBox}
                         >
                             {
-                                skills?.length == 0 &&
+                                skillsFiltered?.length == 0 &&
                                 <Text
                                     style={styles.message}
                                 >
@@ -107,7 +78,7 @@ export default function Home() {
                             }
 
                             {
-                                skills?.map(skill =>
+                                skillsFiltered?.map(skill =>
 
                                     <Card
                                         key={skill.id}
@@ -185,11 +156,9 @@ const styles = StyleSheet.create({
 
     inputBox: {
 
-        flex: 1,
+        flex: 0.5,
         width: "100%",
         justifyContent: "center",
-        backgroundColor: "black",
-        zIndex: 1
     },
 
     input: {

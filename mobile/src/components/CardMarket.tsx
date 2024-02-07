@@ -1,7 +1,6 @@
 import { View, StyleSheet, Text, Image, TouchableOpacity, TouchableOpacityProps } from "react-native"
 import { MarketResponse } from "../@types"
 import { FC, useState } from "react"
-import { CardOptions } from "./CardOptions"
 
 interface CardProps extends TouchableOpacityProps {
 
@@ -10,56 +9,71 @@ interface CardProps extends TouchableOpacityProps {
 
 export const CardMarket: FC<CardProps> = ({ market, onPress }) => {
 
-    const { skill, price } = market
+    const { skill } = market
 
-    const [isOpenCard, setIsOpenCard] = useState<boolean>(false)
+    const colorCard = () => {
+
+        let colorCard = ""
+
+        if (skill.level < 100) {
+
+            colorCard = "#0ea5e9"
+        } else if (skill.level < 300) {
+
+            colorCard = "#16a34a"
+        } else if (skill.level < 700) {
+
+            colorCard = "#b91c1c"
+        } else if (skill.level < 900) {
+
+            colorCard = "#6d28d9"
+        } else {
+
+            colorCard = "#fbbf24"
+        }
+
+        return colorCard
+    }
 
     return (
 
-        <>
-            <TouchableOpacity
-                activeOpacity={0.9}
-                onPress={() => setIsOpenCard(!isOpenCard)}
+        <View
+            {...onPress}
+            style={[
+                styles.box,
+                {
+                    position: "relative",
+                    backgroundColor: colorCard()
+                }]}
+        >
+            <Image
+                source={{
+                    uri: skill.imageURL
+                }}
+                style={styles.image}
+                alt="texto alternativo"
+            />
+            <Text
+                style={styles.cardLevel}
             >
-                <View
-                    {...onPress}
-                    style={[styles.box, { position: "relative" }]}
-                >
-                    <Image
-                        source={{
-                            uri: skill.imageURL
-                        }}
-                        style={styles.image}
-                        alt="texto alternativo"
-                    />
-                    <Text
-                        style={styles.cardLevel}
-                    >
-                        {skill.level}
-                    </Text>
-                    <View
-                        style={styles.cardBox}
-                    >
-                        <Text
-                            style={styles.cardTitle}
-                        >
-                            {skill.name}
-                        </Text>
-
-                        <Text
-                            style={styles.cardDescription}
-                        >
-                            {skill.description}
-                        </Text>
-                    </View>
-                </View>
+                {skill.level}
+            </Text>
+            <View
+                style={styles.cardBox}
+            >
                 <Text
                     style={styles.cardTitle}
                 >
-                    {price}
+                    {skill.name}
                 </Text>
-            </TouchableOpacity>
-        </>
+
+                <Text
+                    style={styles.cardDescription}
+                >
+                    {skill.description}
+                </Text>
+            </View>
+        </View>
     )
 }
 
@@ -73,10 +87,11 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         width: 200,
         minHeight: 300,
-        backgroundColor: "blue",
         padding: 8,
         margin: 4,
         borderRadius: 4,
+        position: "absolute",
+        bottom: 0
     },
 
     cardBox: {

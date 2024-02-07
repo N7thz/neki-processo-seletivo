@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ImageBackground, TouchableOpacity, View, Text, TextInput, Button } from "react-native";
 
 import { useRouter } from "expo-router"
@@ -13,7 +13,8 @@ import { useService } from "../api";
 import { Entypo } from '@expo/vector-icons';
 
 import Background from "../../assets/background-login.png"
-import { UserRequest } from "../@types";
+import { UserRequest, UserResponse } from "../@types";
+import { getDataJson } from "../util";
 
 export interface FormDataProps {
 
@@ -48,6 +49,21 @@ const FormDataSchema = z.object({
 export default function RegisterUser() {
 
     const router = useRouter()
+
+    useEffect(() => {
+
+        protectRoutes()
+    }, [])
+
+    const protectRoutes = async () => {
+
+        const storage: UserResponse = await getDataJson("userLogado")
+
+        if (storage !== null) {
+
+            router.push("/home")
+        }
+    }
 
     const { createUser } = useService()
 

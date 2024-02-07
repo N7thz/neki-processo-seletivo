@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput } from "react-native";
-import { Entypo } from '@expo/vector-icons';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 
 import { MarketResponse, UserResponse } from "../../@types";
-import { Form } from "../../components/Form";
 import { useService } from "../../api";
 
-import { FontAwesome6, AntDesign } from '@expo/vector-icons';
 import { CardMarket } from "../../components/CardMarket";
+import { CardMarketOptions } from "../../components/CardMarketOptions";
 
 export default function Market() {
 
     const { getMarketItens, getUserLogado } = useService()
 
     const [user, setUser] = useState<UserResponse>()
-    const [markets, setMarkets] = useState<MarketResponse[]>()
+    const [markets, setMarkets] = useState<MarketResponse[]>([])
+    const [allMarkets, setAllMarkets] = useState<MarketResponse[]>([])
+    const [myMarkets, setMyMarkets] = useState<MarketResponse[]>([])
+    const [isLeft, setIsLeft] = useState<boolean>(true)
     const [isOpen, setIsOpen] = useState<boolean>(false)
-    const [isOpenNotifications, setIsOpenNotifications] = useState<boolean>(false)
 
     useEffect(() => {
 
@@ -28,111 +28,122 @@ export default function Market() {
             .then(res => { setUser(res.data) })
             .catch(err => console.log(err))
 
+        setAllMarkets(
+            markets?.filter(
+                market => market.skill.idUser !== user?.id
+            )
+        )
+        setMyMarkets(
+            markets?.filter(
+                market => market.skill.idUser === user?.id
+            )
+        )
+
     }, [])
+
+    useEffect(() => {
+
+        getMarketItens()
+            .then(res => { setMarkets(res.data) })
+            .catch(err => console.log(err))
+
+        setAllMarkets(
+            markets?.filter(
+                market => market.skill.idUser !== user?.id
+            )
+        )
+        setMyMarkets(
+            markets?.filter(
+                market => market.skill.idUser === user?.id
+            )
+        )
+    }, [isLeft])
 
     return (
 
         <>
             <View style={styles.container}>
 
-                <View style={styles.header}>
+                <View
+                    style={styles.header}
+                >
 
-                    <Text style={styles.headerText}>
-                        <Entypo
-                            onPress={() => setIsOpenNotifications(!isOpenNotifications)}
-                            name="bell"
-                            size={24}
-                            color="yellow"
-                        />
-                    </Text>
-
-                    <View style={styles.iconBox}>
+                    <TouchableOpacity
+                        onPress={() => setIsLeft(!isLeft)}
+                        style={styles.headerButton}
+                    >
                         <Text
-                            style={{ fontSize: 24 }}
+                            style={[
+                                styles.headerText,
+                                isLeft &&
+                                { color: "yellow" }
+                            ]}
                         >
-                            {user?.coins}
+                            Minhas Skill
                         </Text>
-                        <FontAwesome6
-                            name="coins"
-                            size={24}
-                            color="yellow"
-                        />
-                    </View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        onPress={() => setIsLeft(!isLeft)}
+                        style={styles.headerButton}
+                    >
+                        <Text
+                            style={[
+                                styles.headerText,
+                                !isLeft &&
+                                { color: "yellow" }
+                            ]}
+                        >
+                            Todas as skills
+                        </Text>
+                    </TouchableOpacity>
                 </View>
 
                 <View
                     style={styles.viewPrincipal}
                 >
-
-                    <View
-                        style={styles.inputBox}
-                    >
-                        <TextInput
-                            style={styles.input}
-                        />
-                        <AntDesign
-                            style={styles.icon}
-                            name="search1"
-                            size={24}
-                            color="black"
-                        />
-                    </View>
-
                     <ScrollView
                         style={{ width: "100%" }}
                     >
                         <View
                             style={styles.centerBox}
                         >
+                            
                             {
-                                markets?.length == 0 &&
-                                <Text
-                                    style={styles.message}
-                                >
-                                    Você ainda não possui skills
-                                </Text>
+                                isLeft
+                                    ? myMarkets?.map(market =>
+
+                                        <CardMarket
+                                            key={market.id}
+                                            market={market}
+                                        />
+                                    )
+                                    : allMarkets?.map(market =>
+
+                                        <View
+                                            key={market.id}
+                                        >
+                                            <TouchableOpacity
+                                                onPress={() => setIsOpen(!isOpen)}
+                                            >
+                                                <CardMarket
+                                                    market={market}
+                                                />
+                                            </TouchableOpacity>
+                                            {
+                                                isOpen &&
+                                                <CardMarketOptions
+                                                    market={market}
+                                                />
+                                            }
+                                        </View>
+                                    )
                             }
 
-                            {
-                                markets?.map(market =>
-
-                                    <CardMarket
-                                        key={market.id}
-                                        market={market}
-                                    />
-                                )
-                            }
                         </View>
                     </ScrollView>
                 </View>
-            </View>
-
-            {
-                isOpenNotifications &&
-                <View
-                    style={styles.viewPrincipal}
-                >
-                    {
-                        user?.notifications.map(
-                            notification =>
-                                <Text
-                                    key={notification.id}
-                                >
-                                    {notification.message}
-                                </Text>
-                        )
-                    }
-                </View>
-            }
-
-            {
-                isOpen && user !== undefined &&
-                <Form
-                    user={user}
-                    isOpen={isOpen}
-                    setIsOpen={setIsOpen}
-                />
-            }
+            </View >
         </>
     )
 }
@@ -151,16 +162,28 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "row",
         justifyContent: "space-between",
-        width: "100%",
+        width: "90%",
         backgroundColor: "#6366f1",
+        padding: 2,
+        margin: 12,
+        borderRadius: 8
+    },
+
+    headerButton: {
+
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        width: "100%",
         padding: 2
     },
 
     headerText: {
 
-        marginHorizontal: 24,
+        marginHorizontal: 12,
         marginTop: 6,
         textTransform: "capitalize",
+        color: "white",
         fontSize: 24,
         fontWeight: "bold",
         fontStyle: "italic"
@@ -182,7 +205,6 @@ const styles = StyleSheet.create({
         flex: 1,
         width: "100%",
         justifyContent: "center",
-        backgroundColor: "black",
         zIndex: 1
     },
 
@@ -192,7 +214,6 @@ const styles = StyleSheet.create({
         position: "relative",
         fontSize: 18,
         backgroundColor: "#f2f2f2e9",
-        borderColor: "#000",
         borderWidth: 1,
         borderRadius: 4,
         padding: 4
@@ -200,6 +221,7 @@ const styles = StyleSheet.create({
 
     message: {
 
+        textAlign: "center",
         fontSize: 24,
         fontStyle: "italic",
         fontWeight: "bold",

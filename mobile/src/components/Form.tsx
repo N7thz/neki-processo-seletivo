@@ -17,6 +17,13 @@ export interface FormDataProps {
     level: number
 }
 
+interface FormProps {
+
+    isOpen: boolean
+    setIsOpen: Dispatch<SetStateAction<boolean>>
+    user: UserResponse
+}
+
 const FormDataSchema = z.object({
 
     name: z.string().nonempty({
@@ -32,13 +39,6 @@ const FormDataSchema = z.object({
             message: "O valor minimo é 1"
         })
 })
-
-interface FormProps {
-
-    isOpen: boolean
-    setIsOpen: Dispatch<SetStateAction<boolean>>
-    user: UserResponse
-}
 
 export const Form: FC<FormProps> = ({
     isOpen, setIsOpen, user: userLogado
