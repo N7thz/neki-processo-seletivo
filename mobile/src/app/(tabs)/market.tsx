@@ -1,24 +1,31 @@
 import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput } from "react-native";
+import { Entypo } from '@expo/vector-icons';
 
 import { MarketResponse, UserResponse } from "../../@types";
 import { Form } from "../../components/Form";
 import { useService } from "../../api";
 
 import { FontAwesome6, AntDesign } from '@expo/vector-icons';
+import { CardMarket } from "../../components/CardMarket";
 
 export default function Market() {
 
-    const { getMarketItens } = useService()
+    const { getMarketItens, getUserLogado } = useService()
 
     const [user, setUser] = useState<UserResponse>()
     const [markets, setMarkets] = useState<MarketResponse[]>()
     const [isOpen, setIsOpen] = useState<boolean>(false)
+    const [isOpenNotifications, setIsOpenNotifications] = useState<boolean>(false)
 
     useEffect(() => {
 
         getMarketItens()
             .then(res => { setMarkets(res.data) })
+            .catch(err => console.log(err))
+
+        getUserLogado()
+            .then(res => { setUser(res.data) })
             .catch(err => console.log(err))
 
     }, [])
@@ -31,7 +38,12 @@ export default function Market() {
                 <View style={styles.header}>
 
                     <Text style={styles.headerText}>
-                        {user?.userName}
+                        <Entypo
+                            onPress={() => setIsOpenNotifications(!isOpenNotifications)}
+                            name="bell"
+                            size={24}
+                            color="yellow"
+                        />
                     </Text>
 
                     <View style={styles.iconBox}>
@@ -83,24 +95,35 @@ export default function Market() {
 
                             {
                                 markets?.map(market =>
-                                    <Text>{market.price}</Text>
+
+                                    <CardMarket
+                                        key={market.id}
+                                        market={market}
+                                    />
                                 )
                             }
                         </View>
                     </ScrollView>
                 </View>
-
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => setIsOpen(true)}
-                >
-                    <Text
-                        style={styles.buttonText}
-                    >
-                        Adicionar Skill
-                    </Text>
-                </TouchableOpacity>
             </View>
+
+            {
+                isOpenNotifications &&
+                <View
+                    style={styles.viewPrincipal}
+                >
+                    {
+                        user?.notifications.map(
+                            notification =>
+                                <Text
+                                    key={notification.id}
+                                >
+                                    {notification.message}
+                                </Text>
+                        )
+                    }
+                </View>
+            }
 
             {
                 isOpen && user !== undefined &&

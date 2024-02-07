@@ -1,16 +1,19 @@
 import axios, { AxiosResponse } from "axios"
 import { FormDataProps } from "../app"
-import { UserRequest, SkillRequest, Market } from "../@types"
+import { UserRequest, SkillRequest, Market, UserResponse } from "../@types"
 import { useState, useEffect } from "react"
-import { getData } from "../util"
+import { getData, getDataJson } from "../util"
+import { useUser } from "../context/UserContext"
 
 export const useService = () => {
 
     const [token, setToken] = useState<string>('')
+    const [user, setUser] = useState<UserResponse>()
 
     useEffect(() => {
 
         getToken()
+        getMySkills()
     }, [])
 
     const api = axios.create({
@@ -21,6 +24,16 @@ export const useService = () => {
             'Authorization': token
         }
     })
+
+    const getMySkills = async () => {
+
+        const storage: UserResponse = await getDataJson("userLogado")
+
+        if (storage !== null) {
+
+            setUser(storage)
+        }
+    }
 
     async function getToken() {
 
@@ -83,11 +96,18 @@ export const useService = () => {
         return api.post(url, market)
     }
 
-    function getMarketItens() {
+    function getMarketItens(): Promise<AxiosResponse> {
 
         const url = '/market'
 
         return api.get(url)
+    }
+
+    async function getUserLogado(): Promise<AxiosResponse> {
+
+        const url = `/users/${user?.id}`
+
+        return  api.get(url)
     }
 
     return {
@@ -99,10 +119,10 @@ export const useService = () => {
         deleteSkill,
         updateSkill,
         addToMarket,
-        getMarketItens
+        getMarketItens,
+        getUserLogado
     }
 }
-
 
 
 

@@ -7,7 +7,6 @@ import { useService } from "../../api";
 
 import { FontAwesome6, AntDesign } from '@expo/vector-icons';
 import { Card } from "../../components/Card";
-import { CardOptions } from "../../components/CardOptions";
 
 export default function Home() {
 

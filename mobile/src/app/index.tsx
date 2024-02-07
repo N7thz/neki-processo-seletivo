@@ -15,6 +15,7 @@ import { styles } from "./styles";
 import Background from "../../assets/background-login.png";
 import { getData, getDataJson, storeData, storeDataJson } from "../util";
 import { UserResponse } from "../@types";
+import { UserProvider } from "../context/UserContext";
 
 export interface FormDataProps {
 
@@ -119,140 +120,142 @@ export default function Login() {
 
     return (
 
-        <ImageBackground
-            blurRadius={2}
-            source={Background}
-            style={styles.container}
-        >
-            <View style={styles.form}>
+        <UserProvider>
+            <ImageBackground
+                blurRadius={2}
+                source={Background}
+                style={styles.container}
+            >
+                <View style={styles.form}>
 
-                <Text style={styles.title}>
-                    Login
-                </Text>
+                    <Text style={styles.title}>
+                        Login
+                    </Text>
 
-                <View style={styles.formBody}>
+                    <View style={styles.formBody}>
 
-                    <View style={styles.inputBox}>
+                        <View style={styles.inputBox}>
 
-                        <Text style={styles.label}>
-                            email:
-                        </Text>
-
-                        <Controller
-                            defaultValue={email}
-                            control={control}
-                            name="email"
-                            render={({ field: { onChange } }) => (
-
-                                <TextInput
-                                    style={styles.input}
-                                    onChangeText={onChange}
-                                />
-                            )}
-                        />
-                        {
-                            errors.email &&
-                            <Text style={styles.inputError}>
-                                {errors.email.message}
+                            <Text style={styles.label}>
+                                email:
                             </Text>
-                        }
-                    </View>
 
-                    <View style={styles.inputBox}>
+                            <Controller
+                                defaultValue={email}
+                                control={control}
+                                name="email"
+                                render={({ field: { onChange } }) => (
 
-                        <Text style={styles.label}>
-                            senha:
-                        </Text>
-
-                        <Controller
-                            defaultValue={password}
-                            control={control}
-                            name="password"
-                            render={({ field: { onChange } }) => (
-
-                                <TextInput
-                                    style={styles.input}
-                                    secureTextEntry={!isPasswordVisible}
-                                    onChangeText={onChange}
-                                />
-                            )}
-                        />
-
-                        {
-                            !isPasswordVisible
-                                ? <Entypo
-                                    onPress={
-                                        () => setIsPasswordVisible(!isPasswordVisible)
-                                    }
-                                    style={styles.icon}
-                                    name="eye"
-                                    size={18}
-                                    color="black"
-                                />
-                                : <Entypo
-                                    onPress={
-                                        () => setIsPasswordVisible(!isPasswordVisible)
-                                    }
-                                    style={styles.icon}
-                                    name="eye-with-line"
-                                    size={18}
-                                    color="black"
-                                />
-                        }
-
-                        {
-                            errors.password &&
-                            <Text style={styles.inputError}>
-                                {errors.password.message}
-                            </Text>
-                        }
-                    </View>
-
-                    <View
-                        style={styles.boxContainer}
-                    >
-                        <View>
-                            <TouchableOpacity
-                                activeOpacity={0.8}
-                                onPress={() => router.push("/RegisterUser")}
-                            >
-                                <Text
-                                    style={[styles.link, { margin: 2 }]}
-                                >
-                                    Cadastre-se
+                                    <TextInput
+                                        style={styles.input}
+                                        onChangeText={onChange}
+                                    />
+                                )}
+                            />
+                            {
+                                errors.email &&
+                                <Text style={styles.inputError}>
+                                    {errors.email.message}
                                 </Text>
-                            </TouchableOpacity>
+                            }
+                        </View>
+
+                        <View style={styles.inputBox}>
+
+                            <Text style={styles.label}>
+                                senha:
+                            </Text>
+
+                            <Controller
+                                defaultValue={password}
+                                control={control}
+                                name="password"
+                                render={({ field: { onChange } }) => (
+
+                                    <TextInput
+                                        style={styles.input}
+                                        secureTextEntry={!isPasswordVisible}
+                                        onChangeText={onChange}
+                                    />
+                                )}
+                            />
+
+                            {
+                                !isPasswordVisible
+                                    ? <Entypo
+                                        onPress={
+                                            () => setIsPasswordVisible(!isPasswordVisible)
+                                        }
+                                        style={styles.icon}
+                                        name="eye"
+                                        size={18}
+                                        color="black"
+                                    />
+                                    : <Entypo
+                                        onPress={
+                                            () => setIsPasswordVisible(!isPasswordVisible)
+                                        }
+                                        style={styles.icon}
+                                        name="eye-with-line"
+                                        size={18}
+                                        color="black"
+                                    />
+                            }
+
+                            {
+                                errors.password &&
+                                <Text style={styles.inputError}>
+                                    {errors.password.message}
+                                </Text>
+                            }
                         </View>
 
                         <View
-                            style={styles.checkbox}
+                            style={styles.boxContainer}
                         >
-                            <Checkbox
-                                color={"#8b5cf6"}
-                                style={styles.checkboxInput}
-                                value={isChecked}
-                                onValueChange={setChecked}
-                            />
-                            <Text
-                                style={{ fontSize: 16 }}
-                            >
-                                Lembre-se de mim
-                            </Text>
-                        </View>
-                    </View>
+                            <View>
+                                <TouchableOpacity
+                                    activeOpacity={0.8}
+                                    onPress={() => router.push("/RegisterUser")}
+                                >
+                                    <Text
+                                        style={[styles.link, { margin: 2 }]}
+                                    >
+                                        Cadastre-se
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
 
-                    <TouchableOpacity
-                        style={styles.button}
-                        activeOpacity={0.8}
-                        onPress={handleSubmit(onSubmit)}
-                    >
-                        <Text style={styles.buttonText}>
-                            Login
-                        </Text>
-                    </TouchableOpacity>
+                            <View
+                                style={styles.checkbox}
+                            >
+                                <Checkbox
+                                    color={"#8b5cf6"}
+                                    style={styles.checkboxInput}
+                                    value={isChecked}
+                                    onValueChange={setChecked}
+                                />
+                                <Text
+                                    style={{ fontSize: 16 }}
+                                >
+                                    Lembre-se de mim
+                                </Text>
+                            </View>
+                        </View>
+
+                        <TouchableOpacity
+                            style={styles.button}
+                            activeOpacity={0.8}
+                            onPress={handleSubmit(onSubmit)}
+                        >
+                            <Text style={styles.buttonText}>
+                                Login
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-            </View>
-        </ImageBackground>
+            </ImageBackground>
+        </UserProvider>
     )
 }
 

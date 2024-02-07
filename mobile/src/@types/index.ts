@@ -40,6 +40,9 @@ export interface SkillResponse {
 }
 
 export interface Notification {
+
+    id: number
+    message: string
 }
 
 export interface Market {

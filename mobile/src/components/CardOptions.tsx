@@ -38,7 +38,7 @@ export const CardOptions: FC<CardOptionsProps> = ({ skill }) => {
     const [isPencil, setIsPencil] = useState<boolean>(false)
     const [isMarket, setIsMarket] = useState<boolean>(false)
     const [isFormOpen, setIsFormOpen] = useState<boolean>(false)
-    const [price, setPrice] = useState<number>(0)
+    const [price, setPrice] = useState<string>('')
 
     const handleDeleteSkill = async () => {
 
@@ -141,6 +141,8 @@ export const CardOptions: FC<CardOptionsProps> = ({ skill }) => {
                     </Text>
 
                     <TextInput
+                        value={price}
+                        onChangeText={setPrice}
                         style={styles.input}
                     />
 

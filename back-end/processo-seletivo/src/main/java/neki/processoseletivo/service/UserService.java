@@ -79,6 +79,15 @@ public class UserService {
         return new UserResponseLogin(token, userResponse);
     }
 
+    public UserResponse getById(Long id) {
+
+        User userModel = userRepository.findById(id).get();
+
+        UserResponse userResponse = mapper.map(userModel, UserResponse.class);
+
+        return userResponse;
+    }
+
     public List<UserResponse> getAll() {
 
         List<User> usersModel = userRepository.findAll();

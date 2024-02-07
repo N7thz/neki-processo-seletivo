@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,13 +40,21 @@ public class UserController {
                                 .body(userLogado);
         }
 
+        @GetMapping("/{id}")
+        public ResponseEntity<UserResponse> getById(@PathVariable Long id) {
+
+                return ResponseEntity
+                .status(200)
+                .body(userService.getById(id));
+        }
+
         @GetMapping
         public ResponseEntity<List<UserResponse>> getAll() {
 
                 return ResponseEntity
                                 .status(200)
                                 .body(userService.getAll());
-        }        
+        }
 
         @PostMapping
         public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest) {
