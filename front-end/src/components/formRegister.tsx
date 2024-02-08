@@ -16,10 +16,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { FormRegisterUserSchema } from '@/schemas'
 import { useRouter } from 'next/navigation'
 import { useService } from '@/api'
-import { Check, XCircle } from 'lucide-react'
+import { Check, Eye, EyeOff, XCircle } from 'lucide-react'
 
 export const FormRegister = () => {
 
+    const [isVisible, setIsVisible] = useState<boolean>(false)
     const [isRegister, setIsRegister] = useState<boolean>(false)
     const [isError, setIsError] = useState<boolean>(false)
 
@@ -162,9 +163,23 @@ export const FormRegister = () => {
                             >
                                 <Label
                                     htmlFor='password'
-                                    className='pl-1 text-md'
+                                    className='pl-1 text-md relative'
                                 >
                                     senha:
+
+                                    {
+                                        isVisible
+                                            ? <EyeOff
+                                                size={16}
+                                                onClick={() => setIsVisible(!isVisible)}
+                                                className='absolute top-[180%] right-2 cursor-pointer'
+                                            />
+                                            : <Eye
+                                                size={16}
+                                                onClick={() => setIsVisible(!isVisible)}
+                                                className='absolute top-[180%] right-2 cursor-pointer'
+                                            />
+                                    }
                                 </Label>
 
                                 <Input
@@ -173,7 +188,12 @@ export const FormRegister = () => {
                                         errors.password &&
                                         "border-2 border-red-500"
                                     }
-                                    type='password'
+                                    type={
+
+                                        isVisible
+                                            ? 'text'
+                                            : 'password'
+                                    }
                                     {...register("password")}
                                 />
 
@@ -192,9 +212,23 @@ export const FormRegister = () => {
                             >
                                 <Label
                                     htmlFor='confirm_password'
-                                    className='pl-1 text-md'
+                                    className='pl-1 text-md relative'
                                 >
                                     confirmar senha:
+
+                                    {
+                                        isVisible
+                                            ? <EyeOff
+                                                size={16}
+                                                onClick={() => setIsVisible(!isVisible)}
+                                                className='absolute top-[180%] right-2 cursor-pointer'
+                                            />
+                                            : <Eye
+                                                size={16}
+                                                onClick={() => setIsVisible(!isVisible)}
+                                                className='absolute top-[180%] right-2 cursor-pointer'
+                                            />
+                                    }
                                 </Label>
 
                                 <Input
@@ -203,7 +237,12 @@ export const FormRegister = () => {
                                         errors.confirm_password &&
                                         "border-2 border-red-500"
                                     }
-                                    type='password'
+                                    type={
+
+                                        isVisible
+                                            ? 'text'
+                                            : 'password'
+                                    }
                                     {...register("confirm_password")}
                                 />
 

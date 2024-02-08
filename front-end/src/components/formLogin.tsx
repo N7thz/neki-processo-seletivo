@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 
+import { Checkbox } from './ui/checkbox'
 import { Label } from './ui/label'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
@@ -16,13 +17,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { FormLoginSchema } from '@/schemas'
 import { useRouter } from 'next/navigation'
 import { useService } from '@/api'
-import { XCircle } from 'lucide-react'
-import { Checkbox } from './ui/checkbox'
+import { XCircle, Eye, EyeOff } from 'lucide-react'
 
 export const FormLogin = () => {
 
     const [isError, setIsError] = useState<boolean>(false)
     const [isChecked, setIsChecked] = useState<boolean>(false)
+    const [isVisible, setIsVisible] = useState<boolean>(false)
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
 
@@ -70,7 +71,7 @@ export const FormLogin = () => {
                     }
 
                     localStorage.setItem("token", res.data.token)
-                    
+
                     localStorage.setItem("id", res.data.userResponse.id)
 
                     router.push("/home")
@@ -142,14 +143,30 @@ export const FormLogin = () => {
                                     </span>
                                 }
                             </div>
+
                             <div
                                 className='w-full p-2 flex flex-col justify-start gap-2'
                             >
 
                                 <Label
-                                    className='pl-1 text-md'
+                                    className='pl-1 text-md relative'
                                 >
                                     Senha:
+
+                                    {
+                                        isVisible
+                                            ? <EyeOff
+                                                size={16}
+                                                onClick={() => setIsVisible(!isVisible)}
+                                                className='absolute top-[180%] right-2 cursor-pointer'
+                                            />
+                                            : <Eye
+                                                size={16}
+                                                onClick={() => setIsVisible(!isVisible)}
+                                                className='absolute top-[180%] right-2 cursor-pointer'
+                                            />
+                                    }
+
                                 </Label>
 
                                 <Input
@@ -159,7 +176,12 @@ export const FormLogin = () => {
                                         errors.password &&
                                         "border-2 border-red-500"
                                     }
-                                    type='password'
+                                    type={
+
+                                        isVisible
+                                            ? 'text'
+                                            : 'password'
+                                    }
                                     {...register("password")}
                                 />
 
