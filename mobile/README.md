@@ -1,6 +1,5 @@
 # Tamago App
 
-
 <img src="./assets/tamago-mobile.png" alt="Tamago App Logo" width="280" height="500">
 
 ## Funcionalidades Principais

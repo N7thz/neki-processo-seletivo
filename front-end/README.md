@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Tamago App
 
-## Getting Started
+![Skill Market Preview](/public/tamago-app-next.png)
 
-First, run the development server:
+## Funcionalidades Principais
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Listagem de Habilidades:** Os usuários podem criar listagens detalhadas de suas habilidades para venda, incluindo descrição, preço e categoria.
+- **Pesquisa Avançada:** Recurso de pesquisa avançada que permite aos usuários encontrar habilidades específicas com base em critérios como categoria, preço e localização.
+- **Gerenciamento de Pedidos:** Os usuários podem visualizar e gerenciar os pedidos recebidos de outras pessoas interessadas em comprar suas habilidades.
+- **Perfil de Usuário:** Cada usuário possui um perfil pessoal onde podem gerenciar suas listagens de habilidades, histórico de pedidos e informações da conta.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tecnologias Utilizadas
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **React.js:** Uma biblioteca JavaScript para construir interfaces de usuário.
+- **Next.js:** Um framework React que permite renderização do lado do servidor e geração de páginas estáticas.
+- **Tailwind CSS:** Um framework de utilitários CSS que permite criar rapidamente interfaces modernas e responsivas.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Como Executar o Projeto Localmente
 
-## Learn More
+1. **Clone o Repositório:**
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+O tamago é uma plataforma online para compra e venda de habilidades entre usuários. Com este aplicativo, os usuários podem listar suas habilidades e serviços para venda, bem como procurar por habilidades específicas oferecidas por outros usuários. 
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Funcionalidades Principais
 
-## Deploy on Vercel
+- **Listagem de Habilidades:** Os usuários podem criar listagens detalhadas de suas habilidades para venda, incluindo descrição, preço e categoria.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Compra e venda de skills:** Cada usuário possui um perfil pessoal onde podem gerenciar suas listagens de habilidades, histórico de pedidos e informações da conta.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Tecnologias Utilizadas
+
+- **React.js:** Uma biblioteca JavaScript para construir interfaces de usuário.
+- **Next.js:** Um framework React que permite renderização do lado do servidor e geração de páginas estáticas.
+- **Tailwind CSS:** Um framework de utilitários CSS que permite criar rapidamente interfaces modernas e responsivas.
+
+## Como Executar o Projeto Localmente
+
+1. **Clone o Repositório:**
+
+2. **Instale as Dependências:**
+
+3. **Inicie o Servidor de Desenvolvimento:**
+
+4. **Acesse o Aplicativo:**
+Abra o navegador e acesse `http://localhost:3000` para visualizar o aplicativo em execução.
+
+## Contribuição
+
+Contribuições são bem-vindas! Se você encontrar um bug ou tiver alguma sugestão de melhoria, sinta-se à vontade para abrir uma issue ou enviar um pull request.
+
+## Licença
+
+Este projeto está licenciado sob a [Licença MIT](LICENSE).
