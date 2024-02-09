@@ -1,11 +1,14 @@
-import axios, { AxiosResponse } from "axios"
-import { UserRequest, SkillRequest, Market, UserResponse, FormLoginProps } from "@/types"
 import { useState, useEffect } from "react"
+import axios, { AxiosResponse } from "axios"
+import {
+    UserRequest, SkillRequest, Market, UserResponse, FormLoginProps, SkillResponse
+} from "@/types"
+import { useUser } from "@/context/user-context"
 
 export const useService = () => {
 
     const [token, setToken] = useState<string>('')
-    const [user, setUser] = useState<UserResponse>()
+    const { user } = useUser()
 
     useEffect(() => {
 

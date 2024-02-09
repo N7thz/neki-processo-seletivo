@@ -1,14 +1,9 @@
-import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { Bell } from 'lucide-react';
 import { Card, CardContent } from './ui/card';
-import { Notification } from '@/types';
+import { NotificatioBoardProps } from '@/types';
 
-interface DropdownMenuProps {
-
-    notifications: Notification[]
-}
-
-export const NotificationsBoard: React.FC<DropdownMenuProps> = ({ notifications }) => {
+export const NotificationsBoard: FC<NotificatioBoardProps> = ({ notifications }) => {
 
     const dropdownRef = useRef<HTMLDivElement>(null);
     const [isActive, setIsActive] = useState<boolean>(false);
@@ -51,32 +46,32 @@ export const NotificationsBoard: React.FC<DropdownMenuProps> = ({ notifications 
             {isActive && (
 
                 <Card
-                    className="absolute top-[10%] right-[100%] z-50 border-2 border-violet-500 p-4 w-[320px] h-[200px]"
+                    className="absolute top-[10%] right-[100%] z-40 border-2 flex flex-col gap-4 border-violet-500 p-4 w-[320px] h-[260px] overflow-y-scroll scrollbar-none hover:scrollbar-thin scrollbar-thumb-rounded-full
+                    scrollbar-thumb-violet-500 scrollbar-track-zinc-100  dark:bg-zinc-950/95 dark:scrollbar-track-zinc-900"
                 >
-                    <CardContent
-                        className="flex justify-center items-center"
-                    >
-                        {
-                            notifications.length == 0
-                                ? <span>
-                                    Você ainda não possui notificações
-                                </span>
-                                : notifications.map(notification => {
+                    {
+                        notifications.length == 0
+                            ? <span>
+                                Você ainda não possui notificações
+                            </span>
+                            : notifications
+                                .slice(0)
+                                .reverse()
+                                .map(notification => {
 
                                     const { id, message } = notification
 
                                     return (
-                                        
-                                        <div
 
+                                        <Card
                                             key={id}
+                                            className='w-full p-3'
                                         >
                                             {message}
-                                        </div>
+                                        </Card>
                                     )
                                 })
-                        }
-                    </CardContent>
+                    }
                 </Card>
             )}
         </div>

@@ -49,3 +49,11 @@ export const FormRegisterSkillSchema = z.object({
     })
 })
 
+export const FormUpdateSkillSchema = z.object({
+
+    name: z.string().optional(),
+    description: z.string().optional(),
+    imageURL: z.string().optional(),
+    level: z.string().optional()
+})
+

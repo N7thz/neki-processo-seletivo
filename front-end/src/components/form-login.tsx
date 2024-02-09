@@ -9,7 +9,6 @@ import { Button } from './ui/button'
 import {
     Card, CardContent, CardFooter, CardHeader, CardTitle
 } from './ui/card'
-import { Alert, AlertDescription, AlertTitle } from './ui/alert'
 import { useForm } from "react-hook-form"
 import Link from 'next/link'
 import { FormLoginProps } from '@/types'
@@ -18,6 +17,7 @@ import { FormLoginSchema } from '@/schemas'
 import { useRouter } from 'next/navigation'
 import { useService } from '@/api'
 import { XCircle, Eye, EyeOff } from 'lucide-react'
+import { AlertBox } from './alert-box'
 
 export const FormLogin = () => {
 
@@ -235,21 +235,13 @@ export const FormLogin = () => {
             {
                 isError &&
 
-                <Alert
-                    className='absolute top-[2%] z-10 w-[400px] border border-violet-500'
+                <AlertBox
+                    title='Error ao logar'
+                    message='email ou senha inválidos'
+                    className='text-red-500'
                 >
-                    <AlertTitle
-                        className='text-red-500 text-2xl flex justify-center items-center gap-2 '
-                    >
-                        <XCircle />
-                        Error ao logar
-                    </AlertTitle>
-                    <AlertDescription
-                        className='text-zinc-400 pl-4 flex justify-center'
-                    >
-                        email ou senha inválidos
-                    </AlertDescription>
-                </Alert>
+                    <XCircle />
+                </AlertBox>
             }
         </>
     )

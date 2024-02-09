@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react"
+import { ComponentProps, Dispatch, ReactNode, SetStateAction } from "react"
 
 export interface FormRegisterUserProps {
 
@@ -38,7 +38,6 @@ export interface UserResponse {
     skills: SkillResponse[]
     notifications: Notification[]
 }
-
 export interface SkillRequest {
 
     name: string
@@ -83,16 +82,33 @@ export interface MarketResponse {
     id: number
 }
 
-export interface FormRegisterSkillProps {
+export interface FormSkillProps {
 
-    name: string
-    description: string
-    imageURL: string
-    level: number
+    name: string | null
+    description: string | null
+    imageURL: string | null
+    level: number | null
 }
 
 export interface FormRegisterSkillComponentProps {
 
     isFormOpen: boolean
     setIsFormOpen: Dispatch<SetStateAction<boolean>>
+}
+
+export interface AlertBoxProps extends ComponentProps<'div'> {
+
+    title: string
+    message: string
+    children: ReactNode
+}
+
+export interface NotificatioBoardProps {
+
+    notifications: Notification[]
+}
+
+export interface CardSkillProps extends ComponentProps<'div'> {
+
+    skill: SkillResponse
 }

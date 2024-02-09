@@ -1,5 +1,4 @@
-import { FormLogin } from "@/components/formLogin";
-import { ModeToggle } from "@/components/toggle-mode";
+import { FormLogin } from "@/components/form-login";
 
 export default function Home() {
 

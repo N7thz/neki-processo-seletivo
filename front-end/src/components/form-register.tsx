@@ -1,22 +1,22 @@
 "use client"
 
-import React, { useState } from 'react'
+import { useState } from 'react'
 
-import { Label } from './ui/label'
-import { Input } from './ui/input'
+import { useService } from '@/api'
+import { FormRegisterUserSchema } from '@/schemas'
+import { FormRegisterUserProps, UserRequest } from '@/types'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Check, Eye, EyeOff, XCircle } from 'lucide-react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useForm } from "react-hook-form"
+import { AlertBox } from './alert-box'
 import { Button } from './ui/button'
 import {
     Card, CardContent, CardFooter, CardHeader, CardTitle
 } from './ui/card'
-import { Alert, AlertDescription, AlertTitle } from './ui/alert'
-import { useForm } from "react-hook-form"
-import Link from 'next/link'
-import { FormRegisterUserProps, UserRequest } from '@/types'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { FormRegisterUserSchema } from '@/schemas'
-import { useRouter } from 'next/navigation'
-import { useService } from '@/api'
-import { Check, Eye, EyeOff, XCircle } from 'lucide-react'
+import { Input } from './ui/input'
+import { Label } from './ui/label'
 
 export const FormRegister = () => {
 
@@ -280,41 +280,27 @@ export const FormRegister = () => {
 
             {
                 isRegister &&
-                <Alert
-                    className='absolute top-[2%] z-10 w-[400px] border border-violet-500'
+
+                <AlertBox
+                    className="text-green-500"
+                    title="cadastro efetuado!"
+                    message="o usuario foi cadastrado com sucesso"
                 >
-                    <AlertTitle
-                        className='text-green-500 text-2xl capitalize flex justify-center items-center gap-2 '
-                    >
-                        <Check />
-                        cadastro efetuado!
-                    </AlertTitle>
-                    <AlertDescription
-                        className='text-zinc-400 pl-4 flex justify-center'
-                    >
-                        o usuario foi cadastrado com sucesso
-                    </AlertDescription>
-                </Alert>
+                    <Check />
+                </AlertBox>
+
             }
 
             {
                 isError &&
 
-                <Alert
-                    className='absolute top-[2%] z-10 w-[400px] border border-violet-500'
+                <AlertBox
+                    className="text-red-500"
+                    title="error ao cadastrar"
+                    message="não foi possivel cadastrar o usuário"
                 >
-                    <AlertTitle
-                        className='text-red-500 text-2xl capitalize flex justify-center items-center gap-2 '
-                    >
-                        <XCircle />
-                        Error ao cadastrar
-                    </AlertTitle>
-                    <AlertDescription
-                        className='text-zinc-400 pl-4 flex justify-center'
-                    >
-                        não foi possivel cadastrar o usuário
-                    </AlertDescription>
-                </Alert>
+                    <XCircle />
+                </AlertBox>
             }
         </>
     )

@@ -1,29 +1,86 @@
-import { FC } from "react"
-import { Button } from "./ui/button"
-import { Label } from "./ui/label"
-import { Input } from "./ui/input"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card"
-import { useForm } from "react-hook-form"
-import { FormRegisterSkillProps, FormRegisterSkillComponentProps } from '@/types'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { FC, useState } from "react"
+import { useService } from "@/api"
+import { useUser } from "@/context/user-context"
 import { FormRegisterSkillSchema } from '@/schemas'
+import {
+    FormRegisterSkillComponentProps,
+    FormSkillProps,
+    SkillRequest
+} from '@/types'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Check, XCircle } from "lucide-react"
+import { useForm } from "react-hook-form"
+import { AlertBox } from "./alert-box"
+import { Button } from "./ui/button"
+import {
+    Card,
+    CardContent,
+    CardFooter,
+    CardHeader,
+    CardTitle
+} from "./ui/card"
+import { Input } from "./ui/input"
+import { Label } from "./ui/label"
 
-export const FormRegisterSkill: FC<FormRegisterSkillComponentProps> =  
-({ isFormOpen, setIsFormOpen }) => {
+export const FormRegisterSkill: FC<FormRegisterSkillComponentProps> = ({
+    isFormOpen, setIsFormOpen
+}) => {
+
+    const { createSkill } = useService()
+    const { user } = useUser()
+
+    const [isRegister, setIsRegister] = useState<boolean>(false)
+    const [isError, setIsError] = useState<boolean>(false)
 
     const {
 
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<FormRegisterSkillProps>({
+    } = useForm<FormSkillProps>({
 
         resolver: zodResolver(FormRegisterSkillSchema)
     })
 
-    const onSubmit = (data: FormRegisterSkillProps) => {
+    const onSubmit = (data: FormSkillProps) => {
 
-        console.log(data)
+        const { name, description, imageURL, level } = data
+        const id: number = Number(user?.id)
+
+        if (name && description && imageURL && level) {
+
+            const skill: SkillRequest = {
+
+                name,
+                description,
+                imageURL,
+                level: Number(level),
+                user: {
+                    id
+                }
+            }
+            createSkill(skill)
+                .then(() => {
+
+                    setIsRegister(true)
+
+                    setTimeout(() => {
+
+                        setIsRegister(false)
+                        window.location.reload()
+
+                    }, 2500)
+                })
+                .catch(() => {
+
+                    setIsError(true)
+
+                    setTimeout(() => {
+
+                        setIsError(false)
+                    }, 2000)
+                })
+        }
     }
 
     return (
@@ -154,6 +211,9 @@ export const FormRegisterSkill: FC<FormRegisterSkillComponentProps> =
                                     errors.name &&
                                     "border-2 border-red-500"
                                 }
+                                type="number"
+                                max={999}
+                                min={1}
                                 {...register("level")}
                             />
 
@@ -179,6 +239,31 @@ export const FormRegisterSkill: FC<FormRegisterSkillComponentProps> =
                     </CardFooter>
                 </form>
             </Card>
+
+            {
+                isRegister &&
+
+                <AlertBox
+                    className="text-green-500"
+                    title="cadastro efetuado!"
+                    message="a skill foi adicionada com sucesso"
+                >
+                    <Check />
+                </AlertBox>
+            }
+
+            {
+                isError &&
+
+                <AlertBox
+                    className="text-red-500"
+                    title="error ao cadastrar"
+                    message="não foi possivel adicionar a skill"
+                >
+                    <XCircle />
+                </AlertBox>
+            }
         </div>
     )
 }
+

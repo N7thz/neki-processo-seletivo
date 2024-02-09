@@ -8,10 +8,8 @@ import {
     createContext,
     useContext,
     useEffect,
-    useRef,
     useState
 } from "react"
-
 
 const UserContext = createContext({} as userContextProps)
 
@@ -28,11 +26,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         if (id && user == null) {
 
             getUserLogado(id)
-                .then(res => {
-
-                    setUser(res.data)
-                    console.log(res.data)
-                })
+                .then(res => setUser(res.data))
                 .catch(err => console.log(err))
         }
 
