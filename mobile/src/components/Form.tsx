@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from "react-native"
 
 import { Feather } from '@expo/vector-icons';
@@ -21,7 +21,7 @@ interface FormProps {
 
     isOpen: boolean
     setIsOpen: Dispatch<SetStateAction<boolean>>
-    user: UserResponse
+    user: UserResponse | null
 }
 
 const FormDataSchema = z.object({
@@ -36,8 +36,8 @@ const FormDataSchema = z.object({
         message: "A imagem da skill é obrigátorio."
     }),
     level: z.string().min(1, {
-            message: "O valor minimo é 1"
-        })
+        message: "O valor minimo é 1"
+    })
 })
 
 export const Form: FC<FormProps> = ({
@@ -59,22 +59,25 @@ export const Form: FC<FormProps> = ({
 
         const { name, description, imageURL, level } = data
 
-        const skill: SkillRequest = {
+        if (userLogado) {
 
-            name,
-            description,
-            imageURL,
-            level: Number(level),
-            user: {
-                id: userLogado.id
+            const skill: SkillRequest = {
+
+                name,
+                description,
+                imageURL,
+                level: Number(level),
+                user: {
+                    id: userLogado.id
+                }
             }
-        }
 
-        await createSkill(skill)
-            .then(() => {
-                alert('Skill cadastrado com sucesso')
-                setIsOpen(false)
-            })
+            await createSkill(skill)
+                .then(() => {
+                    alert('Skill cadastrado com sucesso')
+                    setIsOpen(false)
+                })
+        }
     }
 
     return (

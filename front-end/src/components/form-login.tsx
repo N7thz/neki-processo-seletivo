@@ -18,6 +18,9 @@ import { useRouter } from 'next/navigation'
 import { useService } from '@/api'
 import { XCircle, Eye, EyeOff } from 'lucide-react'
 import { AlertBox } from './alert-box'
+import { useUser } from '@/context/user-context'
+import axios from 'axios'
+import { headers } from 'next/headers'
 
 export const FormLogin = () => {
 
@@ -41,7 +44,8 @@ export const FormLogin = () => {
     }, [])
 
     const router = useRouter()
-    const { login } = useService()
+    const { user, setUser } = useUser()
+    const { login, getUserLogado } = useService()
 
     const {
 
@@ -53,9 +57,9 @@ export const FormLogin = () => {
         resolver: zodResolver(FormLoginSchema)
     })
 
-    const onSubmit = (data: FormLoginProps) => {
+    const onSubmit = async (data: FormLoginProps) => {
 
-        login(data)
+        await login(data)
             .then((res) => {
 
                 if (res.status == 200) {
@@ -71,8 +75,30 @@ export const FormLogin = () => {
                     }
 
                     localStorage.setItem("token", res.data.token)
-
                     localStorage.setItem("id", res.data.userResponse.id)
+
+                    const token = res.data.token
+                    const id = res.data.userResponse.id
+                    const url = `http://localhost:8080/api/users/${id}`
+
+                    axios
+                        .get(
+                            url,
+                            {
+                                headers: {
+                                    Authorization: token
+                                }
+                            }
+                        ).then(res => {
+
+                            setUser(res.data)
+                            console.log(res.data)
+                        })
+                        .catch((err) => {
+                            
+                            setUser(null)
+                            console.log(err)
+                        })
 
                     router.push("/home")
                 }

@@ -18,19 +18,18 @@ export function UserProvider({ children }: { children: ReactNode }) {
     const { getUserLogado } = useService()
 
     const [user, setUser] = useState<UserResponse | null>(null)
+    const id = localStorage.getItem("id")
 
     useEffect(() => {
 
-        const id = localStorage.getItem("id")
-
-        if (id && user == null) {
+        if (user == null) {
 
             getUserLogado(id)
                 .then(res => setUser(res.data))
                 .catch(err => console.log(err))
         }
 
-    }, [getUserLogado, user])
+    }, [getUserLogado, id, user])
 
     const value: userContextProps = {
 

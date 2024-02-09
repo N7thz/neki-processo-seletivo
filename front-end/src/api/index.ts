@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import axios, { AxiosResponse } from "axios"
 import {
-    UserRequest, SkillRequest, Market, UserResponse, FormLoginProps, SkillResponse
+    UserRequest, SkillRequest, Market, FormLoginProps
 } from "@/types"
 import { useUser } from "@/context/user-context"
 
@@ -88,7 +88,7 @@ export const useService = () => {
         return api.get(url)
     }
 
-    function getUserLogado(id: string): Promise<AxiosResponse> {
+    function getUserLogado(id: string | null): Promise<AxiosResponse> {
 
         const url = `/users/${id}`
 

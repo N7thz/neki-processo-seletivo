@@ -71,11 +71,6 @@
     background: url("https://i.pinimg.com/originals/23/fa/2f/23fa2feb3b2bd0f2b0dfbf7b6d89de84.jpg") no-repeat fixed;
     background-size: cover;
   }
-
-  .backgroundHome {
-    background: url("https://i.pinimg.com/originals/de/1b/b3/de1bb37306257d5cd20a87c3df39a108.jpg") no-repeat fixed;
-    background-size: cover;
-  }
 }
 
 @layer base {

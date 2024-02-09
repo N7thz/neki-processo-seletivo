@@ -14,7 +14,7 @@ export default function Home() {
 
         <>
             <div
-                className="flex min-h-screen justify-center items-center backgroundHome absolute inset-0 -z-50"
+                className="flex min-h-screen justify-center items-center backgroundImage absolute inset-0 -z-50"
             >
                 <Card
                     className="w-10/12 max-h-[700px] items-center bg-zinc-200 border border-violet-500 overflow-y-scroll scrollbar-none hover:scrollbar-thin scrollbar-thumb-rounded-full
@@ -25,7 +25,7 @@ export default function Home() {
                     >
 
                         <Button
-                            className="w-1/3"
+                            className="w-1/3 min-w-[200px]"
                             onClick={() => setIsFormOpen(!isFormOpen)}
                         >
                             Adicionar skill

@@ -29,7 +29,7 @@ export const Notification: FC<NotificationProps> = ({
                     onPress={() => setIsOpen(!isOpen)}
                 />
                 {
-                    notifications.map(
+                    notifications.slice(0).reverse().map(
                         notification =>
                             <View
                                 key={notification.id}
